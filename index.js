@@ -1,24 +1,16 @@
 const express = require("express");
+const app = express();
 const cors = require("cors");
-const getAllUsers = require("./routes/adminAllUsers");
+
+const user = require("./routes/User");
 const login = require("./routes/login");
 
-let app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(
-    express.urlencoded({
-        extended: true,
-    })
-);
 
-app.get("/", async (req, res) => {
-    res.json({ message: 'ok' });
-});
-
-app.use("/admin/allUsers", getAllUsers)
+app.use("/admin/allUsers/", user)
 app.use("/logindata/", login);
 
 app.use((err, req, res, next) => {
@@ -28,6 +20,5 @@ app.use((err, req, res, next) => {
     return;
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+app.get('/',(req,res)=>res.json({message:'This work'}));
+app.listen(process.env.PORT || port);
